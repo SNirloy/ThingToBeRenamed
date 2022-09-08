@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+
+<canvas id="mainScreen" width="750" height="400" style="border:1px solid #c3c3c3;">
+
+</canvas>
+
+<script>
+var canvas = document.getElementById("mainScreen");
+var ctx = canvas.getContext("2d");
+
+var grav = 0.5;
+
+var player1 = {
+	positioning: [0, 0, 45, 100],
+	yvel: grav,
+	xvel: 0
+};
+
+ctx.fillRect(player1.positioning[0], player1.positioning[1], player1.positioning[2], player1.positioning[3]);
+
+
+var moving = setInterval(happenings, 10);
+function happenings(){
+	if (player1.positioning[1] + player1.positioning[3] >= canvas.height){
+		player1.positioning[1] = canvas.height - player1.positioning[3];
+		player1.yvel = 0; 
+	}
+	else{
+		player1.positioning[1] += player1.yvel;
+		player1.yvel += grav;
+	}
+	player1.positioning[0] += player1.xvel;
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.fillRect(player1.positioning[0], player1.positioning[1], player1.positioning[2], player1.positioning[3]);
+} 
+
+document.addEventListener('keydown', (event) => {
+  var name = event.key;
+  var code = event.code;
+
+  if( name == "d"){ player1.xvel = 3;}
+  if( name == "a"){ player1.xvel = -3;}
+  if( name == "w" && player1.yvel == 0){ player1.positioning[1] -= 1; player1.yvel -= 15;}
+
+}, false);
+
+document.addEventListener('keyup', (event) => {
+  var name = event.key;
+  var code = event.code;
+
+  if( name == "d"){ player1.xvel = 0;}
+  if( name == "a"){ player1.xvel = 0;}
+
+}, false);
+
+
+</script>
+
+</body>
+
+</html>
